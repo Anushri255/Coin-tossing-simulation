@@ -128,12 +128,23 @@
         let player1Score = 0;
         let player2Score = 0;
 
+        const player1Choice = document.getElementById("player1Choice");
+        const player2Choice = document.getElementById("player2Choice");
+
+        // Function to prevent both players from selecting the same option
+        function updatePlayer2Choice() {
+            const player1Selection = player1Choice.value;
+            player2Choice.value = player1Selection === "heads" ? "tails" : "heads";
+        }
+
+        player1Choice.addEventListener("change", updatePlayer2Choice);
+
         document.getElementById("flipButton").addEventListener("click", function() {
             const coin = document.getElementById("coin");
             const player1Name = document.getElementById("player1Name").value;
-            const player1Choice = document.getElementById("player1Choice").value;
+            const player1Selection = player1Choice.value;
             const player2Name = document.getElementById("player2Name").value;
-            const player2Choice = document.getElementById("player2Choice").value;
+            const player2Selection = player2Choice.value;
             const resultDisplay = document.getElementById("result");
             const player1ScoreDisplay = document.getElementById("player1Score");
             const player2ScoreDisplay = document.getElementById("player2Score");
@@ -161,14 +172,12 @@
                     const winningSide = isHeads ? "heads" : "tails";
                     let winner = "";
 
-                    if (winningSide === player1Choice) {
+                    if (winningSide === player1Selection) {
                         winner = player1Name;
                         player1Score++;
-                    } else if (winningSide === player2Choice) {
+                    } else {
                         winner = player2Name;
                         player2Score++;
-                    } else {
-                        winner = "No one";
                     }
 
                     resultDisplay.textContent = `The coin landed on ${winningSide}. ${winner} wins!`;
