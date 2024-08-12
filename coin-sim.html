@@ -18,6 +18,7 @@
 
         .container {
             text-align: center;
+            position: relative;
         }
 
         .coin {
@@ -35,37 +36,34 @@
             top: 0;
             left: 0;
             backface-visibility: hidden;
-            display: flex;
-            justify-content: center;
-            align-items: center;
             border-radius: 50%;
-            font-size: 20px;
-            color: white;
-            line-height: 100px;
-            text-transform: uppercase;
+            transition: transform 0.6s;
         }
 
-        .heads {
-            background-color: #007bff;
+        .side img {
+            width: 100%;
+            height: 100%;
+            border-radius: 50%;
         }
 
         .tails {
-            background-color: #28a745;
             transform: rotateY(180deg);
         }
 
-        .coin.flip {
-            animation: flipCoin 2s forwards;
+        .coin.flip .heads {
+            transform: rotateY(180deg);
         }
 
-        @keyframes flipCoin {
-            0% {
-                transform: rotateY(0);
-            }
+        .coin.flip .tails {
+            transform: rotateY(360deg);
+        }
 
-            100% {
-                transform: rotateY(720deg);
-            }
+        button {
+            position: relative;
+            z-index: 1;
+            padding: 10px 20px;
+            font-size: 16px;
+            cursor: pointer;
         }
     </style>
 </head>
@@ -74,16 +72,37 @@
     <div class="container">
         <div class="coin" id="coin">
             <div class="side heads">
-                <img src="head.jpg" alt="Heads">
+                <img src="head.jpg.png" alt="Heads">
             </div>
             <div class="side tails">
-                <img src="tail.jpg" alt="Tails">
+                <img src="tail.jpg.png" alt="Tails">
             </div>
         </div>
         <button id="flipButton">Flip Coin</button>
     </div>
 
-    <script src="script.js"></script>
+    <script>
+        document.getElementById("flipButton").addEventListener("click", function () {
+            const coin = document.getElementById("coin");
+            const isHeads = Math.random() > 0.5;
+
+            coin.classList.remove("flip");
+
+            setTimeout(function () {
+                coin.classList.add("flip");
+
+                if (isHeads) {
+                    coin.querySelector(".heads").style.transform = "rotateY(0deg)";
+                    coin.querySelector(".tails").style.transform = "rotateY(180deg)";
+                } else {
+                    coin.querySelector(".heads").style.transform = "rotateY(180deg)";
+                    coin.querySelector(".tails").style.transform = "rotateY(360deg)";
+                }
+            }, 100);
+        });
+
+
+    </script>
 </body>
 
 </html>
